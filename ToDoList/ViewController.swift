@@ -13,17 +13,22 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     var tableView: UITableView? = nil
     var todoItems: [NSManagedObject]? = []
+    var titleTextField: UITextField!
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
         setupViews()
+        fetchToDoItems()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationItem.title = "TODO Items"
+        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.add, target: self, action: #selector(self.addToDoItem))
     }
 
     private func setupViews() {
@@ -44,6 +49,24 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         tableView?.dataSource = self
     }
     
+    func titleTextField(textField: UITextField!) {
+        titleTextField = textField
+        titleTextField.placeholder = "TODO:"
+    }
+    
+    func fetchToDoItems() {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            return
+        }
+        let context = appDelegate.persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "ToDoItem")
+        do {
+            todoItems = try context.fetch(fetchRequest)
+        } catch {
+            fatalError("Failed to fetch items")
+        }
+    }
+    
     
     // MARK: table view delegate
     
@@ -53,9 +76,44 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ToDoItemCell", for: indexPath) as! TableViewCell
-        
+        let task = todoItems?[indexPath.row]
+        if let task = task {
+            cell.taskTitle.text = task.value(forKey: "title") as? String
+        }
         return cell
+    }
+    
+    
+    // MARK: button actions
+    
+    @objc func addToDoItem() {
+        let alert = UIAlertController(title: "Add TODO", message: "Add your item name below", preferredStyle: .alert)
+        let add = UIAlertAction(title: "Save", style: .default, handler: self.add)
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         
+        alert.addAction(add)
+        alert.addAction(cancel)
+        alert.addTextField(configurationHandler: titleTextField)
+        
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    func add(sender: UIAlertAction!) {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context = appDelegate.persistentContainer.viewContext
+        let entity = NSEntityDescription.entity(forEntityName: "ToDoItem", in: context)!
+        let task = NSManagedObject(entity: entity, insertInto: context)
+        task.setValue(titleTextField.text, forKey: "title")
+        task.setValue(false, forKey: "status")
+        task.setValue(Date(), forKey: "createdAt")
+        
+        do {
+            try context.save()
+            todoItems?.append(task)
+        } catch {
+            fatalError("Error in saving")
+        }
+        tableView?.reloadData()
     }
     
 }

@@ -83,12 +83,12 @@
 		0321B0F224C2EE1000D056E8 /* ToDoList */ = {
 			isa = PBXGroup;
 			children = (
+				0321B10424C2EE1600D056E8 /* Info.plist */,
 				0321B0F324C2EE1000D056E8 /* AppDelegate.swift */,
 				0321B0F524C2EE1000D056E8 /* SceneDelegate.swift */,
 				0321B0F724C2EE1000D056E8 /* ViewController.swift */,
 				0321B0FF24C2EE1600D056E8 /* Assets.xcassets */,
 				0321B10124C2EE1600D056E8 /* LaunchScreen.storyboard */,
-				0321B10424C2EE1600D056E8 /* Info.plist */,
 				0321B0FC24C2EE1000D056E8 /* ToDoList.xcdatamodeld */,
 				0321B11924C3119400D056E8 /* TableViewCell.swift */,
 				0321B11A24C3119400D056E8 /* TableViewCell.xib */,
