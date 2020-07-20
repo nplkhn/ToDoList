@@ -12,7 +12,7 @@ import CoreData
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     var tableView: UITableView? = nil
-    var todoItems: [NSManagedObject]? = []
+    var todoItems: [NSManagedObject] = []
     var titleTextField: UITextField!
     
 
@@ -71,18 +71,32 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     // MARK: table view delegate
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return todoItems!.count
+        return todoItems.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ToDoItemCell", for: indexPath) as! TableViewCell
-        let task = todoItems?[indexPath.row]
-        if let task = task {
-            cell.taskTitle.text = task.value(forKey: "title") as? String
-        }
+        let task = todoItems[indexPath.row]
+        cell.taskTitle.text = task.value(forKey: "title") as? String
         return cell
     }
     
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let appDelegate = UIApplication.shared.delegate as? AppDelegate
+            let context = appDelegate?.persistentContainer.viewContext
+            context?.delete(todoItems[indexPath.row])
+            todoItems.remove(at: indexPath.row)
+            
+            do {
+                try context?.save()
+            } catch {
+                fatalError("Failed to delete item")
+            }
+            
+            tableView.reloadData()
+        }
+    }
     
     // MARK: button actions
     
@@ -109,7 +123,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         do {
             try context.save()
-            todoItems?.append(task)
+            todoItems.append(task)
         } catch {
             fatalError("Error in saving")
         }
