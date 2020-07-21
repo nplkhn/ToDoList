@@ -13,7 +13,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     var tableView: UITableView? = nil
     var todoItems: [NSManagedObject] = []
-    var titleTextField: UITextField!
     
 
     override func viewDidLoad() {
@@ -49,17 +48,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         tableView?.dataSource = self
     }
     
-    func titleTextField(textField: UITextField!) {
-        titleTextField = textField
-        titleTextField.placeholder = "TODO:"
-    }
-    
     func fetchToDoItems() {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             return
         }
         let context = appDelegate.persistentContainer.viewContext
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "ToDoItem")
+        let descriptor = NSSortDescriptor(key: "deadline", ascending: true)
+        fetchRequest.sortDescriptors = [descriptor]
         do {
             todoItems = try context.fetch(fetchRequest)
         } catch {
@@ -98,36 +94,24 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let descriptionVC = DescriptionViewController()
+        descriptionVC.managedObject = todoItems[indexPath.row]
+        
+        self.present(descriptionVC, animated: true, completion: nil)
+        
+        tableView.cellForRow(at: indexPath)?.setSelected(false, animated: true)
+    }
+    
     // MARK: button actions
     
     @objc func addToDoItem() {
-        let alert = UIAlertController(title: "Add TODO", message: "Add your item name below", preferredStyle: .alert)
-        let add = UIAlertAction(title: "Save", style: .default, handler: self.add)
-        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         
-        alert.addAction(add)
-        alert.addAction(cancel)
-        alert.addTextField(configurationHandler: titleTextField)
+        let creationViewController = TaskCreationViewController(nibName: "TaskCreationViewController", bundle: nil)
+        creationViewController.parentVC = self
         
-        self.present(alert, animated: true, completion: nil)
-    }
-    
-    func add(sender: UIAlertAction!) {
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let context = appDelegate.persistentContainer.viewContext
-        let entity = NSEntityDescription.entity(forEntityName: "ToDoItem", in: context)!
-        let task = NSManagedObject(entity: entity, insertInto: context)
-        task.setValue(titleTextField.text, forKey: "title")
-        task.setValue(false, forKey: "status")
-        task.setValue(Date(), forKey: "createdAt")
+        self.present(creationViewController, animated: true, completion: nil)
         
-        do {
-            try context.save()
-            todoItems.append(task)
-        } catch {
-            fatalError("Error in saving")
-        }
-        tableView?.reloadData()
     }
     
 }

@@ -19,7 +19,7 @@ class TableViewCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
         taskStatus.setImage(UIImage(systemName: "sun.max"), for: .normal)
-
+        self.selectionStyle = .none
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
