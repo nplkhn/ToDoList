@@ -23,12 +23,14 @@ class DescriptionViewController: UIViewController {
             titleLabel.text = managedObject.value(forKey: "title") as? String
             let timeInterval = (managedObject.value(forKey: "deadline") as? Date)?.timeIntervalSinceNow
             if let timeInterval = timeInterval {
-                if timeInterval.isLess(than: 3600.0) {
+                if timeInterval.isLessThanOrEqualTo(0.0){
+                    deadlineLabel.text = "Expired"
+                } else if timeInterval.isLess(than: 3600.0) {
                     deadlineLabel.text = "You have \(NSNumber(value: timeInterval).intValue / 60) minutes to do this task"
                 } else if timeInterval.isLess(than: 86400.0) {
                     deadlineLabel.text = "You have \(NSNumber(value: timeInterval).intValue / 3600) hours to do this task"
-                } else {
-                    deadlineLabel.text = "You have \(NSNumber(value: timeInterval).intValue / 86400) days to do this task"
+                } else  {
+                    deadlineLabel.text = "You have \(NSNumber(value: timeInterval).intValue / 84600) days to do this task"
                 }
             }
             

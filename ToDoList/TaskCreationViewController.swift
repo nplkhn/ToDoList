@@ -18,8 +18,6 @@ class TaskCreationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        let gesture = UIGestureRecognizer(target: self, action: #selector(self.hide))
-//        self.view.addGestureRecognizer(gesture)
         // Do any additional setup after loading the view.
     }
 

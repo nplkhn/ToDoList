@@ -9,8 +9,7 @@
 import UIKit
 import CoreData
 
-class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    
+class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, ChangeButton {
     var tableView: UITableView? = nil
     var todoItems: [NSManagedObject] = []
     
@@ -72,8 +71,19 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ToDoItemCell", for: indexPath) as! TableViewCell
+        cell.todoItems = todoItems
+        cell.index = indexPath.row
+        cell.delegate = self
+        
         let task = todoItems[indexPath.row]
         cell.taskTitle.text = task.value(forKey: "title") as? String
+        if task.value(forKey: "status") as? Int == 0 {
+            cell.taskStatus.setImage(UIImage(systemName: "square"), for: .normal)
+            cell.taskStatus.tintColor = .darkGray
+        } else {
+            cell.taskStatus.setImage(UIImage(systemName: "checkmark.square.fill"), for: .normal)
+            cell.taskStatus.tintColor = UIColor(red: 27.0/255.0, green: 135.0/255.0, blue: 72.0/255.0, alpha: 1)
+        }
         return cell
     }
     
@@ -99,6 +109,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         descriptionVC.managedObject = todoItems[indexPath.row]
         
         self.present(descriptionVC, animated: true, completion: nil)
+        print((todoItems[indexPath.row].value(forKey: "status"))!)
         
         tableView.cellForRow(at: indexPath)?.setSelected(false, animated: true)
     }
@@ -112,6 +123,18 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         self.present(creationViewController, animated: true, completion: nil)
         
+    }
+    
+    func toggleStatus(status: Bool, index: Int?) {
+        todoItems[index!].setValue(status, forKey: "status")
+        do {
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            let context = appDelegate.persistentContainer.viewContext
+            try context.save()
+        } catch {
+            fatalError("Error in saving")
+        }
+        tableView?.reloadData()
     }
     
 }
