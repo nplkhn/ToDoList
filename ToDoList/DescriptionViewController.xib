@@ -10,6 +10,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="DescriptionViewController" customModule="ToDoList" customModuleProvider="target">
             <connections>
                 <outlet property="deadlineLabel" destination="O00-Lc-UB3" id="vyd-cQ-RCu"/>
+                <outlet property="remainingTimeLabel" destination="2jz-Yv-E3X" id="Orf-4f-q0p"/>
                 <outlet property="titleLabel" destination="gSw-bt-YFO" id="oy2-uR-9Wt"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -19,22 +20,46 @@
             <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gSw-bt-YFO" userLabel="titleLabel">
-                    <rect key="frame" x="20" y="95" width="374" height="50"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gSw-bt-YFO" userLabel="titleLabel">
+                    <rect key="frame" x="20" y="94" width="374" height="50"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="MRO-tM-prG"/>
+                    </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="25"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O00-Lc-UB3" userLabel="deadlineLabel">
-                    <rect key="frame" x="20" y="153" width="374" height="50"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O00-Lc-UB3" userLabel="deadlineLabel">
+                    <rect key="frame" x="20" y="154" width="374" height="50"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="yJs-zK-NPH"/>
+                    </constraints>
                     <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="25"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2jz-Yv-E3X" userLabel="remainingTimeLabel">
+                    <rect key="frame" x="20" y="214" width="374" height="50"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="kOK-1g-sWv"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="25"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
             </subviews>
             <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="2jz-Yv-E3X" secondAttribute="trailing" constant="20" id="5yw-At-YEg"/>
+                <constraint firstAttribute="trailing" secondItem="O00-Lc-UB3" secondAttribute="trailing" constant="20" id="9om-xp-ZaX"/>
+                <constraint firstItem="2jz-Yv-E3X" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="Gm7-ax-F4t"/>
+                <constraint firstItem="gSw-bt-YFO" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="50" id="Z67-ba-BJz"/>
+                <constraint firstItem="gSw-bt-YFO" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="ccd-pn-Xgd"/>
+                <constraint firstItem="2jz-Yv-E3X" firstAttribute="top" secondItem="O00-Lc-UB3" secondAttribute="bottom" constant="10" id="kN7-9R-Bxh"/>
+                <constraint firstItem="O00-Lc-UB3" firstAttribute="top" secondItem="gSw-bt-YFO" secondAttribute="bottom" constant="10" id="pxb-rc-P5L"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="gSw-bt-YFO" secondAttribute="trailing" constant="20" id="rb9-kg-FFx"/>
+                <constraint firstItem="O00-Lc-UB3" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="v0r-ms-eEH"/>
+            </constraints>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <point key="canvasLocation" x="137.68115942028987" y="91.741071428571431"/>
         </view>

@@ -13,10 +13,17 @@ class TaskCreationViewController: UIViewController {
 
     @IBOutlet weak var taskTitle: UITextField!
     @IBOutlet weak var taskDeadline: UIDatePicker!
+    @IBOutlet weak var saveButton: UIButton!
     weak var parentVC: ViewController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.view.accessibilityIdentifier = "creationView"
+        self.taskTitle.accessibilityIdentifier = "creationTitleTextField"
+        self.taskDeadline.accessibilityIdentifier = "creationDeadlineDatePicker"
+        self.saveButton.accessibilityIdentifier = "creationSaveButton"
+        
         
         // Do any additional setup after loading the view.
     }

@@ -17,6 +17,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        self.tableView?.accessibilityIdentifier = "mainView"
+        self.navigationController?.navigationBar.accessibilityIdentifier = "mainNavigationBar"
         
         setupViews()
         fetchToDoItems()
@@ -26,7 +28,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         super.viewWillAppear(animated)
         navigationItem.title = "TODO Items"
         navigationController?.navigationBar.prefersLargeTitles = true
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.add, target: self, action: #selector(self.addToDoItem))
+        let addButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.add, target: self, action: #selector(self.addToDoItem))
+        addButton.accessibilityIdentifier = "addButton"
+        navigationItem.rightBarButtonItems = [addButton]
     }
 
     private func setupViews() {
@@ -82,7 +86,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             cell.taskStatus.tintColor = .darkGray
         } else {
             cell.taskStatus.setImage(UIImage(systemName: "checkmark.square.fill"), for: .normal)
-            cell.taskStatus.tintColor = UIColor(red: 27.0/255.0, green: 135.0/255.0, blue: 72.0/255.0, alpha: 1)
+            cell.taskStatus.tintColor = UIColor(red: 27.0/255.0, green: 135.0/255.0, blue: 72.0/255.0, alpha: 0.85)
         }
         return cell
     }
@@ -109,7 +113,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         descriptionVC.managedObject = todoItems[indexPath.row]
         
         self.present(descriptionVC, animated: true, completion: nil)
-        print((todoItems[indexPath.row].value(forKey: "status"))!)
         
         tableView.cellForRow(at: indexPath)?.setSelected(false, animated: true)
     }

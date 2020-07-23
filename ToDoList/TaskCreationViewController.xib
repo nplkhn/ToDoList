@@ -9,6 +9,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TaskCreationViewController" customModule="ToDoList" customModuleProvider="target">
             <connections>
+                <outlet property="saveButton" destination="o9e-FQ-Fe7" id="4B6-tr-Vq7"/>
                 <outlet property="taskDeadline" destination="K7S-CD-DFr" id="ur0-Wj-NRq"/>
                 <outlet property="taskTitle" destination="l3q-lR-kyp" id="ZXB-bb-Fub"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
